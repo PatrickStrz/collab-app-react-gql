@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Challenges from './Challenges'
+import Posts from './Posts'
+import ListPage from './ListPage'
 
 class App extends Component {
   render() {
@@ -12,6 +14,8 @@ class App extends Component {
           <h2>Yoooooo3</h2>
         </div>
         <Challenges />
+        <Posts />
+        <ListPage />
       </div>
     );
   }
