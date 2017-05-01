@@ -1,10 +1,11 @@
 import React,{Component} from 'react'
+import propTypes from 'prop-types'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
 
 class Posts extends Component{
   static propTypes = {
-  data: React.PropTypes.object,
+  data: propTypes.object,
 }
   render(){
     if (this.props.data.loading){
@@ -15,14 +16,13 @@ class Posts extends Component{
     return(
       <div>
         <h2>Posts Y'ALLL</h2>
-
-
         {this.props.data.allPosts.map(post => (
+          <div>
             <p key={post.id}>{post.description}</p>
+            <img src={post.imageUrl} style={{height:"50px", width:"50px"}} alt=""></img>
+          </div>
           ))}
-        {/* {console.log(this.props.data)} */}
       </div>
-
     )
   }
 }
@@ -35,13 +35,10 @@ const FeedQuery = gql`query allPosts{
   }
 }`
 
-
 const PostsWithData = graphql(FeedQuery, {
   options: {
     fetchPolicy: 'network-only'
   },
 })(Posts)
-
-
 
 export default PostsWithData

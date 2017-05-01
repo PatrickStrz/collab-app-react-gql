@@ -4,9 +4,9 @@ import React from 'react'
 import { gql, graphql } from 'react-apollo'
 
 class ListPage extends React.Component {
-  static propTypes = {
-    data: React.PropTypes.object,
-  }
+  // static propTypes = {
+  //   data: React.PropTypes.object,
+  // }
 
   // componentWillReceiveProps(nextProps) {
   //   if (this.props.location.key !== nextProps.location.key) {
