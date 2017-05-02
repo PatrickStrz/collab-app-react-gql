@@ -1,12 +1,18 @@
 import React,{Component} from 'react'
 import propTypes from 'prop-types'
-import { graphql } from 'react-apollo'
-import gql from 'graphql-tag'
+import { graphql, gql, compose } from 'react-apollo'
+// import gql from 'graphql-tag'
 
 class Posts extends Component{
   static propTypes = {
   data: propTypes.object,
 }
+
+handleDelete = async (id)=>{
+  console.log('id:'+id)
+  await this.props.mutate({ variables:{id:id} })
+}
+
   render(){
     if (this.props.data.loading){
       return(<div>
@@ -20,6 +26,8 @@ class Posts extends Component{
           <div>
             <p key={post.id}>{post.description}</p>
             <img src={post.imageUrl} style={{height:"50px", width:"50px"}} alt=""></img>
+            <br></br>
+            <button onClick={ e => this.handleDelete(post.id)}>delete</button>
           </div>
           ))}
       </div>
@@ -35,10 +43,21 @@ const FeedQuery = gql`query allPosts{
   }
 }`
 
+const deleteMutation = gql`
+  mutation deletePost($id: ID!){
+    deletePost(id: $id){
+      id
+    }
+  }
+`
+
+
 const PostsWithData = graphql(FeedQuery, {
   options: {
     fetchPolicy: 'network-only'
   },
 })(Posts)
 
-export default PostsWithData
+const PostsWithDataAndDelete = graphql(deleteMutation)(PostsWithData)
+
+export default PostsWithDataAndDelete

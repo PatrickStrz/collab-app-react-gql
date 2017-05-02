@@ -1,7 +1,7 @@
 import React from 'react'
 // import { Link } from 'react-router-dom'
 // import Post from '../components/Post'
-import { gql, graphql } from 'react-apollo'
+import { gql, graphql, compose } from 'react-apollo'
 
 class ListPage extends React.Component {
   // static propTypes = {
@@ -13,6 +13,10 @@ class ListPage extends React.Component {
   //     this.props.data.refetch()
   //   }
   // }
+
+  const handleDelete = async(id) =>{
+    await this.props.handleDelete({ variables:{id} })
+  }
 
   render() {
     if (this.props.data.loading) {
@@ -29,9 +33,9 @@ class ListPage extends React.Component {
     return (
       <div >
 
-            <div>New Post</div>
+            <div>New Post 2</div>
           {this.props.data.allPosts.map(post => (
-
+            <button onClick={ e => this.props.handleDelete(post.id)}>delete</button>
             <p key={post.id}>postid:{post.id}</p>
           ))}
         {this.props.children}
@@ -48,10 +52,22 @@ const FeedQuery = gql`query allPosts {
   }
 }`
 
-const ListPageWithData = graphql(FeedQuery, {
-  options: {
-    fetchPolicy: 'network-only'
-  },
-})(ListPage)
+const deleteMutation = gql`mutation deletePost($id: ID!){
+  deletePost(id:$id){
+    id
+    description
+  }
+}`
+
+const ListPageWithData =
+compose(
+  graphql(FeedQuery, {
+    options: {
+      fetchPolicy: 'network-only'
+    },
+  })
+  graphql(deleteMutation, {name: deleteMutation})
+)
+(ListPage)
 
 export default ListPageWithData
