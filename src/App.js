@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import logo from './logo.svg'
+import './App.css'
 import Challenges from './Challenges'
 import Posts from './Posts'
-import ListPage from './ListPage'
+import CreateChallenge from './CreateChallenge'
 
 class App extends Component {
   render() {
@@ -15,10 +15,11 @@ class App extends Component {
         </div>
         <Challenges />
         <Posts />
-        <ListPage />
+        <CreateChallenge />
+        {/* <ListPage /> */}
       </div>
     );
   }
 }
 
-export default App;
+export default App
