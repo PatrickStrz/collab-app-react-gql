@@ -13,6 +13,12 @@ class ListPage extends React.Component {
   //     this.props.data.refetch()
   //   }
   // }
+  state = {
+    updatePostForm:{
+      description:"",
+      imageUrl:"",
+    }
+  }
 
   const handleDelete = async(id) =>{
     await this.props.handleDelete({ variables:{id} })
@@ -28,7 +34,6 @@ class ListPage extends React.Component {
         </div>
       )
     }
-
 
     return (
       <div >
@@ -59,6 +64,14 @@ const deleteMutation = gql`mutation deletePost($id: ID!){
   }
 }`
 
+const updateMutation = gql`mutation
+  updatePost($id: ID!, $description: String, $imageUrl:String){
+  updatePost(id:$id, description:$description, imageUrl:$imageUrl){
+    id
+    description
+  }
+}`
+
 const ListPageWithData =
 compose(
   graphql(FeedQuery, {
@@ -66,7 +79,8 @@ compose(
       fetchPolicy: 'network-only'
     },
   })
-  graphql(deleteMutation, {name: deleteMutation})
+  graphql(deleteMutation, {name: deleteMutation}),
+  graphql(updateMutation, {name: updatePostMutation})
 )
 (ListPage)
 
