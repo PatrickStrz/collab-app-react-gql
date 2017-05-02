@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import propTypes from 'prop-types'
 import { graphql, gql, compose } from 'react-apollo'
+import feedQuery from './queries/feedQuery'
 // import gql from 'graphql-tag'
 
 class Posts extends Component{
@@ -10,9 +11,20 @@ class Posts extends Component{
 
 handleDelete = async (id)=>{
   console.log('id:'+id)
-  await this.props.mutate({ variables:{id:id} })
+  await this.props.mutate({ variables:{id:id}, refetchQueries:[{ query: feedQuery}] })
 }
-
+  refetch = graphql(
+    gql`query allPosts{
+      allPosts{
+        id
+        imageUrl
+        description
+      }
+    }`,{
+    options: {
+      fetchPolicy: 'network-only'
+    },}
+  )
   render(){
     if (this.props.data.loading){
       return(<div>
@@ -35,13 +47,13 @@ handleDelete = async (id)=>{
   }
 }
 
-const FeedQuery = gql`query allPosts{
-  allPosts{
-    id
-    imageUrl
-    description
-  }
-}`
+// const FeedQuery = gql`query allPosts{
+//   allPosts{
+//     id
+//     imageUrl
+//     description
+//   }
+// }`
 
 const deleteMutation = gql`
   mutation deletePost($id: ID!){
@@ -52,7 +64,7 @@ const deleteMutation = gql`
 `
 
 
-const PostsWithData = graphql(FeedQuery, {
+const PostsWithData = graphql(feedQuery, {
   options: {
     fetchPolicy: 'network-only'
   },

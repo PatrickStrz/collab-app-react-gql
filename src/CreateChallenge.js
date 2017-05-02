@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 // import propTypes from 'prop-types'
 import { graphql, gql, compose } from 'react-apollo'
-// import gql from 'graphql-tag'
 import feedQuery from './queries/feedQuery'
 
 class CreateChallenge extends Component{
@@ -11,12 +10,12 @@ class CreateChallenge extends Component{
   handlePost = async () => {
     const {description, imageUrl} = this.state
     console.log(description,imageUrl)
-    await this.props.addPost({ variables: {description, imageUrl}, refetchQueries: [feedQuery,]})
+     await this.props.addPost({
+      variables: {description, imageUrl},
+      refetchQueries: [ {query: feedQuery},]})
+    this.setState({description:"", imageUrl:""})
   }
 
-  // handleDelete = async () => {
-  //   const {id} = this.
-  // }
 
   render(){
     return(
@@ -26,7 +25,8 @@ class CreateChallenge extends Component{
             <br></br>
             <input type="text" name="imageUrl" value={this.state.imageUrl} onChange={e => this.setState({imageUrl: e.target.value}) }></input>
             <p>Description:{this.state.description}</p>
-            <p>imageUrl:{this.state.imageUrl}</p>
+            {this.state.imageUrl && <img src={this.state.imageUrl} style={{height:"100px", width:"100px"}} alt=""></img>}
+            <br></br>
             <button onClick={ e => this.handlePost()}>Submit problemo</button>
           </div>
     )
