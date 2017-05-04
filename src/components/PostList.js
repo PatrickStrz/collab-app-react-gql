@@ -1,13 +1,15 @@
 import React,{Component} from 'react'
 import propTypes from 'prop-types'
-import { graphql, gql, compose } from 'react-apollo'
-import feedQuery from '../queries/feedQuery'
-// import gql from 'graphql-tag'
+import { graphql, compose } from 'react-apollo'
+// import feedQuery from '../queries/feedQuery'
+import {getAllPostsQuery} from '../queries/postQueries'
+import {deletePostMutation} from '../mutations/postMutations'
 import Paper from 'material-ui/Paper'
 import IconButton from 'material-ui/IconButton'
-import ActionDelete from 'material-ui/svg-icons/action/delete';
+import ActionDelete from 'material-ui/svg-icons/action/delete'
+import {Link} from 'react-router-dom'
 
-class Posts extends Component{
+class PostList extends Component{
   static propTypes = {
   data: propTypes.object,
 }
@@ -22,20 +24,9 @@ style = {
 }
 
 handleDelete = async (id)=>{
-  await this.props.deletePostMutation({ variables:{id:id}, refetchQueries:[{ query: feedQuery}] })
+  await this.props.deletePostMutation({ variables:{id:id}, refetchQueries:[{ query: getAllPostsQuery}] })
 }
-  refetch = graphql(
-    gql`query allPosts{
-      allPosts{
-        id
-        imageUrl
-        description
-      }
-    }`,{
-    options: {
-      fetchPolicy: 'network-only'
-    },}
-  )
+
   render(){
     if (this.props.data.loading){
       return(<div>
@@ -52,13 +43,13 @@ handleDelete = async (id)=>{
               <p>{post.description}</p>
               {/* <img src={post.imageUrl} style={{height:"50px", width:"50px"}} alt=""></img> */}
               <br></br>
-              {/* <button onClick={ e => this.handleDelete(post.id)}>delete</button> */}
               <IconButton
                 onClick={ e => this.handleDelete(post.id)}
                 tooltip="delete this ting"
               >
                 <ActionDelete hoverColor="rgb(209, 65, 65)" />
               </IconButton>
+              <Link to={`post/${post.id}`}>Go to post</Link>
             </div>
           </Paper>
         <br/>
@@ -69,29 +60,14 @@ handleDelete = async (id)=>{
   }
 }
 
-const deleteMutation = gql`
-  mutation deletePost($id: ID!){
-    deletePost(id: $id){
-      id
-    }
-  }
-`
-const updateMutation = gql`mutation
-  updatePost($id: ID!, $description: String, $imageUrl:String){
-  updatePost(id:$id, description:$description, imageUrl:$imageUrl){
-    id
-    description
-  }
-}`
-
 const PostsWithDataAndMutations = compose(
-  graphql(deleteMutation, {name:"deletePostMutation"}),
-  graphql(updateMutation, {name:"updatePostMutation"}),
-  graphql(feedQuery, {
+  graphql(deletePostMutation, {name:"deletePostMutation"}),
+  // graphql(updateMutation, {name:"updatePostMutation"}),
+  graphql(getAllPostsQuery, {
     options: {
       fetchPolicy: 'network-only'
     },
   })
-)(Posts)
+)(PostList)
 
 export default PostsWithDataAndMutations

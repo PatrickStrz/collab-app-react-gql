@@ -1,11 +1,11 @@
 import React from 'react'
-import Posts from './Posts'
-import CreateChallenge from './CreateChallenge'
+import PostList from './PostList'
+import CreatePost from './CreatePost'
 const Home = () =>{
   return(
     <div>
-      <Posts />
-      <CreateChallenge />
+      <PostList />
+      <CreatePost />
     </div>
   )
 }

@@ -1,9 +1,9 @@
 import React,{Component} from 'react'
 // import propTypes from 'prop-types'
-import { graphql, gql, compose } from 'react-apollo'
+import { graphql, gql } from 'react-apollo'
 import feedQuery from '../queries/feedQuery'
 
-class CreateChallenge extends Component{
+class CreatePost extends Component{
 
   state = { description:"", imageUrl:"",}
 
@@ -31,14 +31,6 @@ class CreateChallenge extends Component{
   }
 }
 
-// const feedQuery = gql`query allPosts {
-//   allPosts(orderBy: createdAt_DESC) {
-//     id
-//     imageUrl
-//     description
-//   }
-// }`
-
 const addMutation = gql`mutation createPost($description: String, $imageUrl: String){
   createPost(description:$description, imageUrl:$imageUrl ){
     id
@@ -46,15 +38,7 @@ const addMutation = gql`mutation createPost($description: String, $imageUrl: Str
     imageUrl
   }
 }`
-const deleteMutation = gql`mutation deletePost($id: ID!){
-  deletePost(id:$id){
-    id
-    description
-  }
-}`
-const addPostWithMutations = compose(
-  graphql(addMutation, {name: 'addPost'}),
-  graphql(deleteMutation, {name: 'deletePost'})
-)(CreateChallenge)
 
-export default addPostWithMutations
+const addPostWithMutation = graphql(addMutation, {name:'addPost'})(CreatePost)
+
+export default addPostWithMutation
