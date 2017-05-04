@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import './App.css'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import Home from './Home'
+// import Home from './Home'
+import Home from './components/Home'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 class App extends Component {
