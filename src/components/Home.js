@@ -1,10 +1,10 @@
 import React from 'react'
-import Posts from './Posts'
+import PostList from './PostList'
 import CreatePost from './CreatePost'
 const Home = () =>{
   return(
     <div>
-      <Posts />
+      <PostList />
       <CreatePost />
     </div>
   )

@@ -1,10 +1,11 @@
 import React,{Component} from 'react'
 // import propTypes from 'prop-types'
-import { graphql, gql, compose } from 'react-apollo'
-import getPostQuery from '../queries/getPostQuery'
+// import { graphql } from 'react-apollo'
+import { graphql, compose } from 'react-apollo'
+import {getPostQuery} from '../queries/postQueries'
 // import {withRouter} from 'react-router-dom'
 import {Link} from 'react-router-dom'
-import Paper from 'material-ui/Paper'
+// import Paper from 'material-ui/Paper'
 
 
 class PostDetail extends Component {

@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 // import propTypes from 'prop-types'
-import { graphql, gql, compose } from 'react-apollo'
+import { graphql, gql } from 'react-apollo'
 import feedQuery from '../queries/feedQuery'
 
 class CreatePost extends Component{
