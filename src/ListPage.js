@@ -2,6 +2,7 @@ import React from 'react'
 // import { Link } from 'react-router-dom'
 // import Post from '../components/Post'
 import { gql, graphql, compose } from 'react-apollo'
+import Paper from 'material-ui/Paper';
 
 class ListPage extends React.Component {
   // static propTypes = {
@@ -24,6 +25,10 @@ class ListPage extends React.Component {
     await this.props.handleDelete({ variables:{id} })
   }
 
+  const handleDelete = async(id) =>{
+    await this.props.handleDelete({ variables:{id} })
+  }
+
   render() {
     if (this.props.data.loading) {
       return (
@@ -39,10 +44,13 @@ class ListPage extends React.Component {
       <div >
 
             <div>New Post 2</div>
-          {this.props.data.allPosts.map(post => (
+          { this.props.data.allPosts.map(post =>{
+            <Paper>
             <button onClick={ e => this.props.handleDelete(post.id)}>delete</button>
             <p key={post.id}>postid:{post.id}</p>
-          ))}
+            </Paper>
+          })
+        }
         {this.props.children}
       </div>
     )

@@ -3,10 +3,22 @@ import propTypes from 'prop-types'
 import { graphql, gql, compose } from 'react-apollo'
 import feedQuery from './queries/feedQuery'
 // import gql from 'graphql-tag'
+import Paper from 'material-ui/Paper'
+import IconButton from 'material-ui/IconButton'
+import ActionDelete from 'material-ui/svg-icons/action/delete';
 
 class Posts extends Component{
   static propTypes = {
   data: propTypes.object,
+}
+
+style = {
+  height: 200,
+  width: 200,
+  margin: 20,
+  textAlign: 'center',
+  display: 'inline-block',
+  color: '#ffffff'
 }
 
 handleDelete = async (id)=>{
@@ -35,11 +47,22 @@ handleDelete = async (id)=>{
         <h2>Posts Y'ALLLzz</h2>
         {this.props.data.allPosts.map(post => (
           <div key={post.id} >
-            <p>{post.description}</p>
-            <img src={post.imageUrl} style={{height:"50px", width:"50px"}} alt=""></img>
-            <br></br>
-            <button onClick={ e => this.handleDelete(post.id)}>delete</button>
-          </div>
+          <Paper style={{...this.style, backgroundImage:`url(${post.imageUrl})`}} zDepth={5}>
+            <div  >
+              <p>{post.description}</p>
+              {/* <img src={post.imageUrl} style={{height:"50px", width:"50px"}} alt=""></img> */}
+              <br></br>
+              {/* <button onClick={ e => this.handleDelete(post.id)}>delete</button> */}
+              <IconButton
+                onClick={ e => this.handleDelete(post.id)}
+                tooltip="delete this ting"
+              >
+                <ActionDelete hoverColor="rgb(209, 65, 65)" />
+              </IconButton>
+            </div>
+          </Paper>
+        <br/>
+        </div>
           ))}
       </div>
     )
