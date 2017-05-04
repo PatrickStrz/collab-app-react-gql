@@ -1,26 +1,24 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
 import './App.css'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import Challenges from './Challenges'
-import Posts from './Posts'
-import CreateChallenge from './CreateChallenge'
+// import Home from './Home'
+import Home from './components/Home'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 
 class App extends Component {
   render() {
     return (
+    <Router>
       <MuiThemeProvider>
-        <div className="App">
-          <div className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
-            <h2>Yoooooo3</h2>
-          </div>
-          <Challenges />
-          <Posts />
-          <CreateChallenge />
-          {/* <ListPage /> */}
+        <div className="grid-center">
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/about" render={() => <h1>about</h1>} />
+          <Route render={() => <h1>Page Not Found</h1>}/>
+        </Switch>
         </div>
       </MuiThemeProvider>
+    </Router>
     );
   }
 }
