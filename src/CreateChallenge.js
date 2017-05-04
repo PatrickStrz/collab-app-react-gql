@@ -9,13 +9,11 @@ class CreateChallenge extends Component{
 
   handlePost = async () => {
     const {description, imageUrl} = this.state
-    console.log(description,imageUrl)
      await this.props.addPost({
       variables: {description, imageUrl},
       refetchQueries: [ {query: feedQuery},]})
     this.setState({description:"", imageUrl:""})
   }
-
 
   render(){
     return(

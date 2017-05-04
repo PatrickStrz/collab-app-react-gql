@@ -2,6 +2,7 @@ import React from 'react'
 // import { Link } from 'react-router-dom'
 // import Post from '../components/Post'
 import { gql, graphql, compose } from 'react-apollo'
+import Paper from 'material-ui/Paper';
 
 class ListPage extends React.Component {
   // static propTypes = {
@@ -13,6 +14,16 @@ class ListPage extends React.Component {
   //     this.props.data.refetch()
   //   }
   // }
+  state = {
+    updatePostForm:{
+      description:"",
+      imageUrl:"",
+    }
+  }
+
+  const handleDelete = async(id) =>{
+    await this.props.handleDelete({ variables:{id} })
+  }
 
   const handleDelete = async(id) =>{
     await this.props.handleDelete({ variables:{id} })
@@ -29,15 +40,17 @@ class ListPage extends React.Component {
       )
     }
 
-
     return (
       <div >
 
             <div>New Post 2</div>
-          {this.props.data.allPosts.map(post => (
+          { this.props.data.allPosts.map(post =>{
+            <Paper>
             <button onClick={ e => this.props.handleDelete(post.id)}>delete</button>
             <p key={post.id}>postid:{post.id}</p>
-          ))}
+            </Paper>
+          })
+        }
         {this.props.children}
       </div>
     )
@@ -59,6 +72,14 @@ const deleteMutation = gql`mutation deletePost($id: ID!){
   }
 }`
 
+const updateMutation = gql`mutation
+  updatePost($id: ID!, $description: String, $imageUrl:String){
+  updatePost(id:$id, description:$description, imageUrl:$imageUrl){
+    id
+    description
+  }
+}`
+
 const ListPageWithData =
 compose(
   graphql(FeedQuery, {
@@ -66,7 +87,8 @@ compose(
       fetchPolicy: 'network-only'
     },
   })
-  graphql(deleteMutation, {name: deleteMutation})
+  graphql(deleteMutation, {name: deleteMutation}),
+  graphql(updateMutation, {name: updatePostMutation})
 )
 (ListPage)
 
