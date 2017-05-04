@@ -5,7 +5,8 @@ import feedQuery from '../queries/feedQuery'
 // import gql from 'graphql-tag'
 import Paper from 'material-ui/Paper'
 import IconButton from 'material-ui/IconButton'
-import ActionDelete from 'material-ui/svg-icons/action/delete';
+import ActionDelete from 'material-ui/svg-icons/action/delete'
+import {Link} from 'react-router-dom'
 
 class Posts extends Component{
   static propTypes = {
@@ -24,18 +25,7 @@ style = {
 handleDelete = async (id)=>{
   await this.props.deletePostMutation({ variables:{id:id}, refetchQueries:[{ query: feedQuery}] })
 }
-  refetch = graphql(
-    gql`query allPosts{
-      allPosts{
-        id
-        imageUrl
-        description
-      }
-    }`,{
-    options: {
-      fetchPolicy: 'network-only'
-    },}
-  )
+
   render(){
     if (this.props.data.loading){
       return(<div>
@@ -59,6 +49,7 @@ handleDelete = async (id)=>{
               >
                 <ActionDelete hoverColor="rgb(209, 65, 65)" />
               </IconButton>
+              <Link to={`post/${post.id}`}>Go to post</Link>
             </div>
           </Paper>
         <br/>
