@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 // import propTypes from 'prop-types'
 import { graphql, gql } from 'react-apollo'
 import feedQuery from '../queries/feedQuery'
+import PostCreateForm from './PostCreateForm'
 
 class CreatePost extends Component{
 
@@ -14,19 +15,31 @@ class CreatePost extends Component{
       refetchQueries: [ {query: feedQuery},]})
     this.setState({description:"", imageUrl:""})
   }
+  handleSubmit = async (values) => {
+    // console.log(values)
+    const {description, imageUrl} = values
+    // const description = values.title
+    // const imageUrl = values.text
+     await this.props.addPost({
+      variables: {description, imageUrl},
+      refetchQueries: [ {query: feedQuery},]})
+    // this.setState({description:"", imageUrl:""})
+  }
 
   render(){
     return(
           <div>
-            <h1>Create a Challenge</h1>
+            {/* <h1>Create a Challenge</h1>
             <input type="text" title="description" value={this.state.description} onChange={ e => this.setState({description: e.target.value})}></input>
             <br></br>
             <input type="text" name="imageUrl" value={this.state.imageUrl} onChange={e => this.setState({imageUrl: e.target.value}) }></input>
             <p>Description:{this.state.description}</p>
             {this.state.imageUrl && <img src={this.state.imageUrl} style={{height:"100px", width:"100px"}} alt=""></img>}
             <br></br>
-            <button onClick={ e => this.handlePost()}>Submit problemo</button>
+            <button onClick={ e => this.handlePost()}>Submit problemo</button> */}
+            <PostCreateForm onSubmit={this.handleSubmit}/>
           </div>
+
     )
   }
 }
